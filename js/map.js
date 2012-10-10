@@ -170,6 +170,11 @@ function makeMyMap(){
     "GE": { "name" : "Geneva", "type": "canton", "file":"suisse.svg", "children_file": 'district_GE.svg'},
     "BE": { "name" : "Bern", "type": "canton", "file":"suisse.svg", "children_file": 'district_BE.svg'},
     "VD": { "name" : "Vaud", "type": "canton", "file":"suisse.svg", "children_file": 'district_VD.svg'},
+    "FR": { "name" : "Fribourg", "type": "canton", "file":"suisse.svg", "children_file": 'district_FR.svg'},
+    "JU": { "name" : "Jura", "type": "canton", "file":"suisse.svg", "children_file": 'district_JU.svg'},
+    "TI": { "name" : "Tessin", "type": "canton", "file":"suisse.svg", "children_file": 'district_TI.svg'},
+    "NE": { "name" : "Neuchâtel", "type": "canton", "file":"suisse.svg", "children_file": 'district_NE.svg'},
+    "SA": { "name" : "Suisse Alémanique", "type": "canton", "file":"suisse.svg", "children_file": 'district_SA.svg'},
 
     // District VS
     "2303" : { "name" : "District d'Entremont", "file": 'district_VS.svg', 'parent' : 'VS'}
