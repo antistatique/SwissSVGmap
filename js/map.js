@@ -262,7 +262,7 @@ function makeMyMap(){
   };
 
   var options = {
-    "overColor" : "#B3D259",
+    "overColor" : "#c1aa5b",
     "normalColor" : "#4D4D4D",
     "selectedColor" : "#8DB63F",
     "selectedCallback" : null,
