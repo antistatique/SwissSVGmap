@@ -12,7 +12,7 @@ function SwissMap(wrapperElement, mapData, initialPlaceID, options){
   this.initialPlaceID = initialPlaceID;
 
   this.svg_map = null;
-  this.currentSVG = null;
+  this.currentSvgFile = null;
   this.currentRegionID = null;
   this.overRegionID = null;
   var self = this;
@@ -39,21 +39,23 @@ function SwissMap(wrapperElement, mapData, initialPlaceID, options){
   // If we don't have element for label and title
   // Put some default
   // @FIXME MAKE IE FAIL
-  if(this.options.overLabel === null){
-    this.options.overLabel = this.wrapperElement.querySelector('.swissmapMouseOverLabel');
-  }
-  if(this.options.backButton === null){
-    this.options.backButton = this.wrapperElement.querySelector('.swissmapBack');
-  }
-  if(this.options.currentTitle === null){
-    this.options.currentTitle = this.wrapperElement.querySelector('.swissmapCurrentTitle');
-  }
+  if(typeof document.querySelector === 'function'){
+    if(this.options.overLabel === null){
+      this.options.overLabel = this.wrapperElement.querySelector('.swissmapMouseOverLabel');
+    }
+    if(this.options.backButton === null){
+      this.options.backButton = this.wrapperElement.querySelector('.swissmapBack');
+    }
+    if(this.options.currentTitle === null){
+      this.options.currentTitle = this.wrapperElement.querySelector('.swissmapCurrentTitle');
+    }
 
-  //event listener for back button
-  this.options.backButton.addEventListener('click',function(e){
-    e.preventDefault();
-    self.unZoom(e);
-  },false);
+    //event listener for back button
+    this.options.backButton.addEventListener('click',function(e){
+      e.preventDefault();
+      self.unZoom(e);
+    },false);
+  }
 }
 
 /**
@@ -73,13 +75,13 @@ SwissMap.prototype.loadRegionSVG = function(regionID){
 /**
  * Load SVG
  *
- * @param  string currentSVG  SVG to load
+ * @param  string currentSvgFile  SVG to load
  */
-SwissMap.prototype.loadSVG = function(currentSVG){
-  this.currentSVG = currentSVG;
+SwissMap.prototype.loadSVG = function(currentSvgFile){
+  this.currentSvgFile = currentSvgFile;
   var currentSVGObject = document.createElement('object', true);
   currentSVGObject.setAttribute('type', 'image/svg+xml');
-  currentSVGObject.setAttribute('data', this.options.mapsRootPath + '/' + this.currentSVG);
+  currentSVGObject.setAttribute('data', this.options.mapsRootPath + '/' + this.currentSvgFile);
   var self = this;
   currentSVGObject.addEventListener('SVGLoad' ,function(e) {
       self.svgLoaded(e,this);
@@ -140,7 +142,7 @@ SwissMap.prototype.bindEventToSVG = function(){
   var self = this;
   var mapElement;
   for(var id in this.mapData){
-    if(this.mapData[id].file === this.currentSVG){
+    if(this.mapData[id].file === this.currentSvgFile){
       mapElement = this.svg_map.getElementById(id);
       if(mapElement !== null){
         mapElement.addEventListener('mouseup', function(e) {
