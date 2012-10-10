@@ -90,7 +90,7 @@ SwissMap.prototype.removeSVGObjects = function(){
 
 SwissMap.prototype.updateLabel = function(){
 
-}
+};
 
 
 /**
@@ -166,10 +166,10 @@ function makeMyMap(){
 
   var mapData = {
     // Cantons
-    "VS": { "name" : "Valais", "type": "canton","file":"canton_tous.svg", "children_file": 'district_VS.svg'},
-    "GE": { "name" : "Geneva", "type": "canton", "file":"canton_tous.svg", "children_file": 'district_GE.svg'},
-    "BE": { "name" : "Bern", "type": "canton", "file":"canton_tous.svg", "children_file": 'district_BE.svg'},
-    "VD": { "name" : "Vaud", "type": "canton", "file":"canton_tous.svg", "children_file": 'district_VD.svg'},
+    "VS": { "name" : "Valais", "type": "canton","file":"suisse.svg", "children_file": 'district_VS.svg'},
+    "GE": { "name" : "Geneva", "type": "canton", "file":"suisse.svg", "children_file": 'district_GE.svg'},
+    "BE": { "name" : "Bern", "type": "canton", "file":"suisse.svg", "children_file": 'district_BE.svg'},
+    "VD": { "name" : "Vaud", "type": "canton", "file":"suisse.svg", "children_file": 'district_VD.svg'},
 
     // District VS
     "2303" : { "name" : "District d'Entremont", "file": 'district_VS.svg', 'parent' : 'VS'}
@@ -184,7 +184,7 @@ function makeMyMap(){
   };
 
   var mapWrapper = document.getElementById('swissmap');
-  var myMap = new SwissMap(mapWrapper, mapData,'canton_tous.svg',options);
+  var myMap = new SwissMap(mapWrapper, mapData,'suisse.svg',options);
 
   myMap.init();
 
