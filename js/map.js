@@ -49,7 +49,8 @@ function SwissMap(wrapperElement, mapData, initialPlaceID, options){
   }
 
   //event listener for back button
-  this.options.backButton.addEventListener('onMouseUp',function(e){
+  this.options.backButton.addEventListener('click',function(e){
+    e.preventDefault();
     self.unZoom(e);
   },false);
 }
@@ -106,7 +107,7 @@ SwissMap.prototype.removeSVGObjects = function(){
 };
 
 SwissMap.prototype.unZoom = function(){
-  //this.mapData[];
+  this.loadRegionSVG(this.currentRegionID);
 };
 
 
