@@ -177,7 +177,21 @@ function makeMyMap(){
     "SA": { "name" : "Suisse Alémanique", "type": "canton", "file":"suisse.svg", "children_file": 'district_SA.svg'},
 
     // District VS
-    "2303" : { "name" : "District d'Entremont", "file": 'district_VS.svg', 'parent' : 'VS'}
+    "2303" : { "name" : "District d'Entremont", "file": 'district_VS.svg', 'parent' : 'VS'},
+
+    // District VD
+    "2222" : { "name" : "District de la Broye-Vully", "file": 'district_VD.svg', 'parent' : 'VD'},
+    "2223" : { "name" : "District du Gros-de-Vaud", "file": 'district_VD.svg', 'parent' : 'VD'},
+    "2227" : { "name" : "District de Morges", "file": 'district_VD.svg', 'parent' : 'VD'},
+    "2228" : { "name" : "District de Nyon", "file": 'district_VD.svg', 'parent' : 'VD'},
+    "2229" : { "name" : "District de l'Ouest lausannois", "file": 'district_VD.svg', 'parent' : 'VD'},
+    "2224" : { "name" : "District du Jura-Nord vaudois", "file": 'district_VD.svg', 'parent' : 'VD'},
+    "2225" : { "name" : "District de Lausanne", "file": 'district_VD.svg', 'parent' : 'VD'},
+    "2230" : { "name" : "District de la Riviera-Pays-d'Enhaut", "file": 'district_VD.svg', 'parent' : 'VD'},
+    "2221" : { "name" : "District d'Aigle", "file": 'district_VD.svg', 'parent' : 'VD'},
+    "2226" : { "name" : "District de Lavaux-Oron", "file": 'district_VD.svg', 'parent' : 'VD'},
+
+
   };
 
   var options = {
