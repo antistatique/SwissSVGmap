@@ -3,16 +3,19 @@
  *
  * @param html node wrapperElement HTML element than wrap the map.
  * @param object mapData        JSON with the different region
- * @param string defaultSVG     the SVG we load first or when none is specified in the place
+ * @param string initialPlaceID  the first place to load
  * @param string placeID        Place to load initially
  */
-function SwissMap(wrapperElement, mapData, defaultSVG, options){
+function SwissMap(wrapperElement, mapData, initialPlaceID, options){
   this.mapData = mapData;
-  this.defaultSVG = defaultSVG;
   this.wrapperElement = wrapperElement;
+  this.initialPlaceID = initialPlaceID;
 
   this.svg_map = null;
   this.currentSVG = null;
+  this.currentRegionID = null;
+  this.overRegionID = null;
+  var self = this;
 
   // Default options
   this.options = {
@@ -23,25 +26,46 @@ function SwissMap(wrapperElement, mapData, defaultSVG, options){
     "mouseOnCallback" : null,
     "mouseOutCallback" : null,
     "mapsRootPath" : 'maps',
-    "initialPlaceID" : null,
-    'overLabel' : null //dom element where we want to add the over information
+    'overLabel' : null,
+    'backButton' : null,
+    'currentTitle' : null
   };
 
   // Overwrite default value
   for(var item in options) {
     this.options[item] = options[item];
   }
+
+  // If we don't have element for label and title
+  // Put some defaultf
+  if(this.options.overLabel === null){
+    this.options.overLabel = this.wrapperElement.querySelector('.swissmapMouseOverLabel');
+  }
+  if(this.options.backButton === null){
+    this.options.backButton = this.wrapperElement.querySelector('.swissmapBack');
+  }
+  if(this.options.currentTitle === null){
+    this.options.currentTitle = this.wrapperElement.querySelector('.swissmapCurrentTitle');
+  }
+
+  //event listener for back button
+  this.options.backButton.addEventListener('onMouseUp',function(e){
+    self.unZoom(e);
+  },false);
 }
 
 /**
  * Fire!
  */
 SwissMap.prototype.init = function(){
-  if(this.options.initialPlaceID  === null){
-    this.loadSVG(this.defaultSVG);
-  }else{
-    this.loadSVG(this.options.initialPlaceID);
+  if(this.options.initialPlaceID  !== null){
+    this.loadRegionSVG(this.initialPlaceID);
   }
+};
+
+SwissMap.prototype.loadRegionSVG = function(regionID){
+  this.currentRegionID = regionID;
+  this.loadSVG(this.mapData[regionID].file);
 };
 
 /**
@@ -54,13 +78,6 @@ SwissMap.prototype.loadSVG = function(currentSVG){
   var currentSVGObject = document.createElement('object', true);
   currentSVGObject.setAttribute('type', 'image/svg+xml');
   currentSVGObject.setAttribute('data', this.options.mapsRootPath + '/' + this.currentSVG);
-  //currentSVGObject.setAttribute('svgName', svgName);
-  /*if (TODO.width !== undefined) {
-    currentSVGObject.setAttribute('width', TODO.width);
-  }
-  if (TODO.height !== undefined) {
-    currentSVGObject.setAttribute('height', TODO.height);
-  }*/
   var self = this;
   currentSVGObject.addEventListener('SVGLoad' ,function(e) {
       self.svgLoaded(e,this);
@@ -88,8 +105,15 @@ SwissMap.prototype.removeSVGObjects = function(){
   }
 };
 
-SwissMap.prototype.updateLabel = function(){
+SwissMap.prototype.unZoom = function(){
+  //this.mapData[];
+};
 
+
+SwissMap.prototype.updateLabel = function(){
+  var textLabel = this.mapData[this.overRegionID].name;
+  var label = document.createTextNode(textLabel);
+  this.options.overLabel.innerHTML = textLabel;
 };
 
 
@@ -116,15 +140,17 @@ SwissMap.prototype.bindEventToSVG = function(){
   for(var id in this.mapData){
     if(this.mapData[id].file === this.currentSVG){
       mapElement = this.svg_map.getElementById(id);
-      mapElement.addEventListener('mouseup', function(e) {
-        self.onMouseUp(e);
-      }, false);
-      mapElement.addEventListener('mouseover', function(e) {
-        self.onMouseOver(e);
-      }, false);
-      mapElement.addEventListener('mouseout', function(e) {
-        self.onMouseOut(e);
-      }, false);
+      if(mapElement !== null){
+        mapElement.addEventListener('mouseup', function(e) {
+          self.onMouseUp(e);
+        }, false);
+        mapElement.addEventListener('mouseover', function(e) {
+          self.onMouseOver(e);
+        }, false);
+        mapElement.addEventListener('mouseout', function(e) {
+          self.onMouseOut(e);
+        }, false);
+    }
     }
   }
 };
@@ -133,6 +159,7 @@ SwissMap.prototype.bindEventToSVG = function(){
 
 SwissMap.prototype.onMouseUp = function(e){
   var data = this.mapData[e.target.id];
+  // Load as a children SVG if specified in the element
   if(typeof data.children_file  !== undefined){
     this.loadSVG(data.children_file);
   }
@@ -142,7 +169,9 @@ SwissMap.prototype.onMouseUp = function(e){
   }
 };
 SwissMap.prototype.onMouseOver = function(e){
+  this.overRegionID = e.target.id;
   e.target.setAttribute('fill', this.options.overColor);
+  this.updateLabel();
   if(typeof this.mouseOnCallback === "function") {
     this.mouseOnCallback.call(this, e.target.id, e.target, data);
   }
@@ -165,6 +194,8 @@ window.onsvgload = function(){
 function makeMyMap(){
 
   var mapData = {
+    "swiss": { "name" : "Suisse", "type": "country","file":"suisse.svg" },
+
     // Cantons
     "VS": { "name" : "Valais", "type": "canton","file":"suisse.svg", "children_file": 'district_VS.svg'},
     "GE": { "name" : "Geneva", "type": "canton", "file":"suisse.svg", "children_file": 'district_GE.svg'},
@@ -214,7 +245,7 @@ function makeMyMap(){
   };
 
   var mapWrapper = document.getElementById('swissmap');
-  var myMap = new SwissMap(mapWrapper, mapData,'suisse.svg',options);
+  var myMap = new SwissMap(mapWrapper, mapData, 'swiss' ,options);
 
   myMap.init();
 
