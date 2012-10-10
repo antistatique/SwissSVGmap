@@ -130,6 +130,8 @@ SwissMap.prototype.updateLabel = function(){
 SwissMap.prototype.svgLoaded = function(e, svgInstance){
   //get the content of the SVG
   this.svg_map = svgInstance.contentDocument;
+  console.log(this.svg_map);
+
   //bind event
   this.bindEventToSVG();
 };
@@ -145,6 +147,7 @@ SwissMap.prototype.bindEventToSVG = function(){
     if(this.mapData[id].file === this.currentSvgFile){
       mapElement = this.svg_map.getElementById(id);
       if(mapElement !== null){
+
         mapElement.addEventListener('mouseup', function(e) {
           self.onMouseUp(e);
         }, false);
@@ -212,56 +215,56 @@ function makeMyMap(){
     "SA": { "name" : "Suisse Alémanique", "type": "canton", "file":"suisse.svg", "children_file": 'district_SA.svg'},
 
     // District VS
-    "ofsnbr_2306" : { "name" : "Bezirk Leuk ", "file": 'district_VS.svg', 'parent' : 'VS'},
-    "ofsnbr_2309" : { "name" : "Bezirk Raron", "file": 'district_VS.svg', 'parent' : 'VS'},
-    "ofsnbr_2303" : { "name" : "District d'Entremont", "file": 'district_VS.svg', 'parent' : 'VS'},
-    "ofsnbr_2301" : { "name" : "Bezirk Brig", "file": 'district_VS.svg', 'parent' : 'VS'},
-    "ofsnbr_2305" : { "name" : "District d'Hérens", "file": 'district_VS.svg', 'parent' : 'VS'},
-    "ofsnbr_2304" : { "name" : "Bezirk Goms", "file": 'district_VS.svg', 'parent' : 'VS'},
-    "ofsnbr_2310" : { "name" : "District de Saint-Maurice", "file": 'district_VS.svg', 'parent' : 'VS'},
-    "ofsnbr_2307" : { "name" : "District de Martigny", "file": 'district_VS.svg', 'parent' : 'VS'},
-    "ofsnbr_2308" : { "name" : "District de Monthey", "file": 'district_VS.svg', 'parent' : 'VS'},
-    "ofsnbr_2312" : { "name" : "District  de Sion", "file": 'district_VS.svg', 'parent' : 'VS'},
-    "ofsnbr_2302" : { "name" : "District de Conthey", "file": 'district_VS.svg', 'parent' : 'VS'},
-    "ofsnbr_2313" : { "name" : "Bezirk Visp", "file": 'district_VS.svg', 'parent' : 'VS'},
-    "ofsnbr_2311" : { "name" : "District de Sierre", "file": 'district_VS.svg', 'parent' : 'VS'},
+    "ofsnbr2306" : { "name" : "Bezirk Leuk ", "file": 'district_VS.svg', 'parent' : 'VS'},
+    "ofsnbr2309" : { "name" : "Bezirk Raron", "file": 'district_VS.svg', 'parent' : 'VS'},
+    "ofsnbr2303" : { "name" : "District d'Entremont", "file": 'district_VS.svg', 'parent' : 'VS'},
+    "ofsnbr2301" : { "name" : "Bezirk Brig", "file": 'district_VS.svg', 'parent' : 'VS'},
+    "ofsnbr2305" : { "name" : "District d'Hérens", "file": 'district_VS.svg', 'parent' : 'VS'},
+    "ofsnbr2304" : { "name" : "Bezirk Goms", "file": 'district_VS.svg', 'parent' : 'VS'},
+    "ofsnbr2310" : { "name" : "District de Saint-Maurice", "file": 'district_VS.svg', 'parent' : 'VS'},
+    "ofsnbr2307" : { "name" : "District de Martigny", "file": 'district_VS.svg', 'parent' : 'VS'},
+    "ofsnbr2308" : { "name" : "District de Monthey", "file": 'district_VS.svg', 'parent' : 'VS'},
+    "ofsnbr2312" : { "name" : "District  de Sion", "file": 'district_VS.svg', 'parent' : 'VS'},
+    "ofsnbr2302" : { "name" : "District de Conthey", "file": 'district_VS.svg', 'parent' : 'VS'},
+    "ofsnbr2313" : { "name" : "Bezirk Visp", "file": 'district_VS.svg', 'parent' : 'VS'},
+    "ofsnbr2311" : { "name" : "District de Sierre", "file": 'district_VS.svg', 'parent' : 'VS'},
 
     // District GE
-    "ofsnbr_2500" : { "name" : "District de Genève", "file": 'district_GE.svg', 'parent' : 'GE'},
+    "ofsnbr2500" : { "name" : "District de Genève", "file": 'district_GE.svg', 'parent' : 'GE'},
 
     // District VD
-    "ofsnbr_2222" : { "name" : "District de la Broye-Vully", "file": 'district_VD.svg', 'parent' : 'VD'},
-    "ofsnbr_2223" : { "name" : "District du Gros-de-Vaud", "file": 'district_VD.svg', 'parent' : 'VD'},
-    "ofsnbr_2227" : { "name" : "District de Morges", "file": 'district_VD.svg', 'parent' : 'VD'},
-    "ofsnbr_2228" : { "name" : "District de Nyon", "file": 'district_VD.svg', 'parent' : 'VD'},
-    "ofsnbr_2229" : { "name" : "District de l'Ouest lausannois", "file": 'district_VD.svg', 'parent' : 'VD'},
-    "ofsnbr_2224" : { "name" : "District du Jura-Nord vaudois", "file": 'district_VD.svg', 'parent' : 'VD'},
-    "ofsnbr_2225" : { "name" : "District de Lausanne", "file": 'district_VD.svg', 'parent' : 'VD'},
-    "ofsnbr_2230" : { "name" : "District de la Riviera-Pays-d'Enhaut", "file": 'district_VD.svg', 'parent' : 'VD'},
-    "ofsnbr_2221" : { "name" : "District d'Aigle", "file": 'district_VD.svg', 'parent' : 'VD'},
-    "ofsnbr_2226" : { "name" : "District de Lavaux-Oron", "file": 'district_VD.svg', 'parent' : 'VD'},
+    "ofsnbr2222" : { "name" : "District de la Broye-Vully", "file": 'district_VD.svg', 'parent' : 'VD'},
+    "ofsnbr2223" : { "name" : "District du Gros-de-Vaud", "file": 'district_VD.svg', 'parent' : 'VD'},
+    "ofsnbr2227" : { "name" : "District de Morges", "file": 'district_VD.svg', 'parent' : 'VD'},
+    "ofsnbr2228" : { "name" : "District de Nyon", "file": 'district_VD.svg', 'parent' : 'VD'},
+    "ofsnbr2229" : { "name" : "District de l'Ouest lausannois", "file": 'district_VD.svg', 'parent' : 'VD'},
+    "ofsnbr2224" : { "name" : "District du Jura-Nord vaudois", "file": 'district_VD.svg', 'parent' : 'VD'},
+    "ofsnbr2225" : { "name" : "District de Lausanne", "file": 'district_VD.svg', 'parent' : 'VD'},
+    "ofsnbr2230" : { "name" : "District de la Riviera-Pays-d'Enhaut", "file": 'district_VD.svg', 'parent' : 'VD'},
+    "ofsnbr2221" : { "name" : "District d'Aigle", "file": 'district_VD.svg', 'parent' : 'VD'},
+    "ofsnbr2226" : { "name" : "District de Lavaux-Oron", "file": 'district_VD.svg', 'parent' : 'VD'},
 
     // District FR
-    "ofsnbr_1001" : { "name" : "District de la Broye", "file": 'district_FR.svg', 'parent' : 'FR'},
-    "ofsnbr_1002" : { "name" : "District de la Glâne", "file": 'district_FR.svg', 'parent' : 'FR'},
-    "ofsnbr_1007" : { "name" : "District de la Veveyse", "file": 'district_FR.svg', 'parent' : 'FR'},
-    "ofsnbr_1003" : { "name" : "District de la Gruyère", "file": 'district_FR.svg', 'parent' : 'FR'},
-    "ofsnbr_1004" : { "name" : "District de la Sarine", "file": 'district_FR.svg', 'parent' : 'FR'},
-    "ofsnbr_1006" : { "name" : "Bezirk Sense", "file": 'district_FR.svg', 'parent' : 'FR'},
-    "ofsnbr_1005" : { "name" : "District du Lac", "file": 'district_FR.svg', 'parent' : 'FR'},
+    "ofsnbr1001" : { "name" : "District de la Broye", "file": 'district_FR.svg', 'parent' : 'FR'},
+    "ofsnbr1002" : { "name" : "District de la Glâne", "file": 'district_FR.svg', 'parent' : 'FR'},
+    "ofsnbr1007" : { "name" : "District de la Veveyse", "file": 'district_FR.svg', 'parent' : 'FR'},
+    "ofsnbr1003" : { "name" : "District de la Gruyère", "file": 'district_FR.svg', 'parent' : 'FR'},
+    "ofsnbr1004" : { "name" : "District de la Sarine", "file": 'district_FR.svg', 'parent' : 'FR'},
+    "ofsnbr1006" : { "name" : "Bezirk Sense", "file": 'district_FR.svg', 'parent' : 'FR'},
+    "ofsnbr1005" : { "name" : "District du Lac", "file": 'district_FR.svg', 'parent' : 'FR'},
 
     // Distric JU
-    "ofsnbr_2602" : { "name" : "District des Franches-Montagne", "file": 'district_JU.svg', 'parent' : 'JU'},
-    "ofsnbr_2603" : { "name" : "District de Porrentruy", "file": 'district_JU.svg', 'parent' : 'JU'},
-    "ofsnbr_2601" : { "name" : "District de Delémont", "file": 'district_JU.svg', 'parent' : 'JU'},
+    "ofsnbr2602" : { "name" : "District des Franches-Montagne", "file": 'district_JU.svg', 'parent' : 'JU'},
+    "ofsnbr2603" : { "name" : "District de Porrentruy", "file": 'district_JU.svg', 'parent' : 'JU'},
+    "ofsnbr2601" : { "name" : "District de Delémont", "file": 'district_JU.svg', 'parent' : 'JU'},
 
     // Distric NE
-    "ofsnbr_2404" : { "name" : "District de Neuchâtel", "file": 'district_NE.svg', 'parent' : 'NE'},
-    "ofsnbr_2405" : { "name" : "District du Val-de-Ruz", "file": 'district_NE.svg', 'parent' : 'NE'},
-    "ofsnbr_2401" : { "name" : "District de Boudry", "file": 'district_NE.svg', 'parent' : 'NE'},
-    "ofsnbr_2406" : { "name" : "District du Val-de-Travers", "file": 'district_NE.svg', 'parent' : 'NE'},
-    "ofsnbr_2403" : { "name" : "District du Locle", "file": 'district_NE.svg', 'parent' : 'NE'},
-    "ofsnbr_2402" : { "name" : "District de la Chaux-de-Fonds", "file": 'district_NE.svg', 'parent' : 'NE'}
+    "ofsnbr2404" : { "name" : "District de Neuchâtel", "file": 'district_NE.svg', 'parent' : 'NE'},
+    "ofsnbr2405" : { "name" : "District du Val-de-Ruz", "file": 'district_NE.svg', 'parent' : 'NE'},
+    "ofsnbr2401" : { "name" : "District de Boudry", "file": 'district_NE.svg', 'parent' : 'NE'},
+    "ofsnbr2406" : { "name" : "District du Val-de-Travers", "file": 'district_NE.svg', 'parent' : 'NE'},
+    "ofsnbr2403" : { "name" : "District du Locle", "file": 'district_NE.svg', 'parent' : 'NE'},
+    "ofsnbr2402" : { "name" : "District de la Chaux-de-Fonds", "file": 'district_NE.svg', 'parent' : 'NE'}
 
   };
 
