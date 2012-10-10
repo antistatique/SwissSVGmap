@@ -179,6 +179,9 @@ function makeMyMap(){
     // District VS
     "2303" : { "name" : "District d'Entremont", "file": 'district_VS.svg', 'parent' : 'VS'},
 
+    // District GE
+    "2500" : { "name" : "District de Genève", "file": 'district_GE.svg', 'parent' : 'GE'},
+
     // District VD
     "2222" : { "name" : "District de la Broye-Vully", "file": 'district_VD.svg', 'parent' : 'VD'},
     "2223" : { "name" : "District du Gros-de-Vaud", "file": 'district_VD.svg', 'parent' : 'VD'},
@@ -191,6 +194,14 @@ function makeMyMap(){
     "2221" : { "name" : "District d'Aigle", "file": 'district_VD.svg', 'parent' : 'VD'},
     "2226" : { "name" : "District de Lavaux-Oron", "file": 'district_VD.svg', 'parent' : 'VD'},
 
+    // District FR
+    "1001" : { "name" : "District de la Broye", "file": 'district_FR.svg', 'parent' : 'FR'},
+    "1002" : { "name" : "District de la Glâne", "file": 'district_FR.svg', 'parent' : 'FR'},
+    "1007" : { "name" : "District de la Veveyse", "file": 'district_FR.svg', 'parent' : 'FR'},
+    "1003" : { "name" : "District de la Gruyère", "file": 'district_FR.svg', 'parent' : 'FR'},
+    "1004" : { "name" : "District de la Sarine", "file": 'district_FR.svg', 'parent' : 'FR'},
+    "1006" : { "name" : "Bezirk Sense", "file": 'district_FR.svg', 'parent' : 'FR'},
+    "1005" : { "name" : "District du Lac", "file": 'district_FR.svg', 'parent' : 'FR'},
 
   };
 
