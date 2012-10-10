@@ -37,7 +37,8 @@ function SwissMap(wrapperElement, mapData, initialPlaceID, options){
   }
 
   // If we don't have element for label and title
-  // Put some defaultf
+  // Put some default
+  // @FIXME MAKE IE FAIL
   if(this.options.overLabel === null){
     this.options.overLabel = this.wrapperElement.querySelector('.swissmapMouseOverLabel');
   }
