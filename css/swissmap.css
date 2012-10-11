@@ -1,0 +1,9 @@
+#swissmap {
+  max-width: 1140px;
+  margin: 0 auto;
+  margin-top: 150px;
+}
+
+#swissmap object {
+  width: 100%;
+}
