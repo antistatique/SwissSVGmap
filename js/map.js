@@ -30,7 +30,8 @@ function SwissMap(wrapperElement, mapData, initialPlaceID, options){
     "mapsRootPath" : 'maps',
     'overLabel' : null,
     'backButton' : null,
-    'currentTitle' : null
+    'currentTitle' : null,
+    'multipleSelection' : false
   };
 
   // Overwrite default value
@@ -138,7 +139,7 @@ SwissMap.prototype.svgLoaded = function(e, svgInstance){
 };
 
 
-SwissMap.prototype.setSVGAttribut = function(element,attributName, value){
+SwissMap.prototype.setSVGAttribut = function(element, attributName, value){
   // Save the old value
   // JS do not help us here...
   if (typeof this.originalSvgData[element.id] === "undefined") {
@@ -153,9 +154,9 @@ SwissMap.prototype.setSVGAttribut = function(element,attributName, value){
   element.setAttribute(attributName, value);
 };
 
-SwissMap.prototype.resetSVGAttribut = function(element,attributName){
+SwissMap.prototype.resetSVGAttribut = function(element, attributName){
   //get the original value
-  var value =   this.originalSvgData[element.id][attributName];
+  var value = this.originalSvgData[element.id][attributName];
   //set it back
   element.setAttribute(attributName, value);
 };
@@ -185,18 +186,23 @@ SwissMap.prototype.bindEventToSVG = function(){
   }
 };
 
-SwissMap.prototype.addRegionToSelection = function(region){
-  this.setSVGAttribut(region, 'fill', this.options.selectedColor);
-  this.selectedRegions[region.id] = 'selected';
+SwissMap.prototype.addRegionToSelection = function(regionID){
+  if(this.options.multipleSelection === false){
+    this.resetSelection();
+  }
+  mapElement = this.svg_map.getElementById(regionID);
+  this.setSVGAttribut(mapElement, 'fill', this.options.selectedColor);
+  this.selectedRegions[regionID] = 'selected';
 };
 
-SwissMap.prototype.removeRegionFromSelection = function(region){
-  this.resetSVGAttribut(region, 'fill');
-  delete this.selectedRegions[region.id];
+SwissMap.prototype.removeRegionFromSelection = function(regionID){
+  mapElement = this.svg_map.getElementById(regionID);
+  this.resetSVGAttribut(mapElement, 'fill');
+  delete this.selectedRegions[regionID];
 };
 
-SwissMap.prototype.isRegionSelected = function(region){
-  if(this.selectedRegions[region.id] === 'selected'){
+SwissMap.prototype.isRegionSelected = function(regionID){
+  if(this.selectedRegions[regionID] === 'selected'){
     return true;
   }else{
     return false;
@@ -204,6 +210,9 @@ SwissMap.prototype.isRegionSelected = function(region){
 };
 
 SwissMap.prototype.resetSelection = function(){
+  for(id in this.selectedRegions){
+    this.removeRegionFromSelection([id]);
+  }
   this.selectedRegions = {};
 };
 
@@ -216,15 +225,14 @@ SwissMap.prototype.selectionAll = function(){
 SwissMap.prototype.onMouseUp = function(e){
   var data = this.mapData[e.target.id];
   // Load as a children SVG if specified in the element
-  console.log(data.children_file);
   if(typeof data.children_file  !== "undefined"){
     this.loadSVG(data.children_file);
   } else {
     //select/unselect the region
-    if(this.isRegionSelected(e.target)){
-        this.removeRegionFromSelection(e.target);
+    if(this.isRegionSelected(e.target.id)){
+        this.removeRegionFromSelection(e.target.id);
     }else{
-        this.addRegionToSelection(e.target);
+        this.addRegionToSelection(e.target.id);
     }
   }
 
@@ -234,7 +242,7 @@ SwissMap.prototype.onMouseUp = function(e){
 };
 SwissMap.prototype.onMouseOver = function(e){
   this.overRegionID = e.target.id;
-  if(!this.isRegionSelected(e.target)){
+  if(!this.isRegionSelected(e.target.id)){
     this.setSVGAttribut(e.target, 'fill', this.options.overColor);
   }
   this.updateLabel();
@@ -244,7 +252,7 @@ SwissMap.prototype.onMouseOver = function(e){
 };
 
 SwissMap.prototype.onMouseOut = function(e){
-  if(!this.isRegionSelected(e.target)){
+  if(!this.isRegionSelected(e.target.id)){
     this.resetSVGAttribut(e.target,'fill');
   }
   if(typeof this.mouseOutCallback === "function") {
