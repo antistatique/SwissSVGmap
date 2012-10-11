@@ -38,7 +38,6 @@ function SwissMap(wrapperElement, mapData, initialPlaceID, options){
 
   // If we don't have element for label and title
   // Put some default
-  // @FIXME MAKE IE FAIL
   if(typeof document.querySelector === 'function'){
     if(this.options.overLabel === null){
       this.options.overLabel = this.wrapperElement.querySelector('.swissmapMouseOverLabel');
@@ -49,13 +48,14 @@ function SwissMap(wrapperElement, mapData, initialPlaceID, options){
     if(this.options.currentTitle === null){
       this.options.currentTitle = this.wrapperElement.querySelector('.swissmapCurrentTitle');
     }
-
-    //event listener for back button
-    this.options.backButton.addEventListener('click',function(e){
-      e.preventDefault();
-      self.unZoom(e);
-    },false);
   }
+
+  // Old school event so it works on IE7
+  this.options.backButton.onclick = function(e){
+    self.unZoom(e);
+    return false; //prevendtDefault
+  };
+
 }
 
 /**
@@ -191,7 +191,6 @@ SwissMap.prototype.onMouseOut = function(e){
   }
 };
 
-
 //start after svgweb is ready
 window.onsvgload = function(){
   makeMyMap();
@@ -273,7 +272,11 @@ function makeMyMap(){
     "normalColor" : "#4D4D4D",
     "selectedColor" : "#8DB63F",
     "selectedCallback" : null,
-    "mapsRootPath" : 'maps'
+    "mapsRootPath" : 'maps',
+    //This is just because IE7 don't understand querySelector
+    'overLabel' : document.getElementById('swissmapMouseOverLabel'),
+    'backButton' : document.getElementById('swissmapBack'),
+    'currentTitle' : document.getElementById('swissmapTitle')
   };
 
   var mapWrapper = document.getElementById('swissmap');
