@@ -13,10 +13,10 @@
   z-index: 90;
 }
 
-#maplegend {
-  position: absolute;
-  top: 0;
-  left: 0;
+#swissmap .swissmapBack,
+#swissmap .swissmapTitle,
+#swissmap .maplegend {
+  position: relative;
   z-index: 99;
 }
 
