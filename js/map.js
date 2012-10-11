@@ -15,6 +15,7 @@ function SwissMap(wrapperElement, mapData, initialPlaceID, options){
   this.currentSvgFile = null;
   this.currentRegionID = null;
   this.overRegionID = null;
+  this.originalSvgData = {};
   var self = this;
 
   // Default options
@@ -136,6 +137,26 @@ SwissMap.prototype.svgLoaded = function(e, svgInstance){
   this.bindEventToSVG();
 };
 
+SwissMap.prototype.setSVGAttribut = function(element,attributName, value){
+  // Save the old value
+  // JS do not help us here...
+  if (typeof this.originalSvgData[element.id] === "undefined") {
+    this.originalSvgData[element.id] = {};
+  }
+  if (typeof this.originalSvgData[element.id][attributName] === "undefined") {
+    this.originalSvgData[element.id][attributName] = {};
+  }
+  this.originalSvgData[element.id][attributName] =  element.getAttribute(attributName);
+  //set the new value
+  element.setAttribute(attributName, value);
+};
+
+SwissMap.prototype.resetSVGAttribut = function(element,attributName){
+  //get the original value
+  var value =   this.originalSvgData[element.id][attributName];
+  //set it back
+  element.setAttribute(attributName, value);
+};
 
 /**
  * We bind event listener on SVG element than was find in the mapData (match on ID)
@@ -177,7 +198,9 @@ SwissMap.prototype.onMouseUp = function(e){
 };
 SwissMap.prototype.onMouseOver = function(e){
   this.overRegionID = e.target.id;
-  e.target.setAttribute('fill', this.options.overColor);
+  //e.target.setAttribute('fill', this.options.overColor);
+  this.setSVGAttribut(e.target, 'fill', this.options.overColor);
+
   this.updateLabel();
   if(typeof this.mouseOnCallback === "function") {
     this.mouseOnCallback.call(this, e.target.id, e.target, data);
@@ -185,7 +208,7 @@ SwissMap.prototype.onMouseOver = function(e){
 };
 
 SwissMap.prototype.onMouseOut = function(e){
-  e.target.setAttribute('fill', this.options.normalColor);
+  this.resetSVGAttribut(e.target,'fill');
   if(typeof this.mouseOutCallback === "function") {
     this.mouseOutCallback.call(this, e.target.id, e.target, data);
   }
