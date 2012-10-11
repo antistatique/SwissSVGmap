@@ -114,7 +114,7 @@ SwissMap.prototype.removeSVGObjects = function(){
 };
 
 SwissMap.prototype.unZoom = function(){
-  this.loadRegionSVG(this.currentRegionID);
+  this.loadRegionSVG(this.mapData[this.currentRegionID].parent);
 };
 
 
@@ -167,8 +167,10 @@ SwissMap.prototype.resetSVGAttribut = function(element, attributName){
 SwissMap.prototype.bindEventToSVG = function(){
   var self = this;
   var mapElement;
+      console.log(this.currentRegionID);
+
   for(var id in this.mapData){
-    if(this.mapData[id].file === this.currentSvgFile){
+    if(this.mapData[id].parent === this.currentRegionID){
       mapElement = this.svg_map.getElementById(id);
       if(mapElement !== null){
 
@@ -210,8 +212,8 @@ SwissMap.prototype.isRegionSelected = function(regionID){
 };
 
 SwissMap.prototype.resetSelection = function(){
-  for(id in this.selectedRegions){
-    this.removeRegionFromSelection([id]);
+  for(var regionID in this.selectedRegions){
+    this.removeRegionFromSelection([regionID]);
   }
   this.selectedRegions = {};
 };
@@ -225,8 +227,9 @@ SwissMap.prototype.selectionAll = function(){
 SwissMap.prototype.onMouseUp = function(e){
   var data = this.mapData[e.target.id];
   // Load as a children SVG if specified in the element
-  if(typeof data.children_file  !== "undefined"){
-    this.loadSVG(data.children_file);
+  // and the SVG is not the current one
+  if(typeof data.file  !== "undefined" && data.file !== this.currentSvgFile){
+    this.loadRegionSVG(e.target.id);
   } else {
     //select/unselect the region
     if(this.isRegionSelected(e.target.id)){

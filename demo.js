@@ -10,15 +10,15 @@ function makeMyMap(){
     "swiss": { "name" : "Suisse", "type": "country","file":"suisse.svg" },
 
     // Cantons
-    "VS": { "name" : "Valais", "type": "canton","file":"suisse.svg", "children_file": 'district_VS.svg'},
-    "GE": { "name" : "Geneva", "type": "canton", "file":"suisse.svg", "children_file": 'district_GE.svg'},
-    "BE": { "name" : "Bern", "type": "canton", "file":"suisse.svg", "children_file": 'district_BE.svg'},
-    "VD": { "name" : "Vaud", "type": "canton", "file":"suisse.svg", "children_file": 'district_VD.svg'},
-    "FR": { "name" : "Fribourg", "type": "canton", "file":"suisse.svg", "children_file": 'district_FR.svg'},
-    "JU": { "name" : "Jura", "type": "canton", "file":"suisse.svg", "children_file": 'district_JU.svg'},
-    "TI": { "name" : "Tessin", "type": "canton", "file":"suisse.svg", "children_file": 'district_TI.svg'},
-    "NE": { "name" : "Neuchâtel", "type": "canton", "file":"suisse.svg", "children_file": 'district_NE.svg'},
-    "SA": { "name" : "Suisse Alémanique", "type": "canton", "file":"suisse.svg", "children_file": 'district_SA.svg'},
+    "VS": { "name" : "Valais", "type": "canton","file": 'district_VS.svg', "parent": "swiss"},
+    "GE": { "name" : "Geneva", "type": "canton", "file": 'district_GE.svg', "parent": "swiss"},
+    "BE": { "name" : "Bern", "type": "canton", "file": 'district_BE.svg', "parent": "swiss"},
+    "VD": { "name" : "Vaud", "type": "canton", "file": 'district_VD.svg', "parent": "swiss"},
+    "FR": { "name" : "Fribourg", "type": "canton", "file": 'district_FR.svg', "parent": "swiss"},
+    "JU": { "name" : "Jura", "type": "canton", "file": 'district_JU.svg', "parent": "swiss"},
+    "TI": { "name" : "Tessin", "type": "canton", "file": 'district_TI.svg', "parent": "swiss"},
+    "NE": { "name" : "Neuchâtel", "type": "canton", "file": 'district_NE.svg', "parent": "swiss"},
+    "SA": { "name" : "Suisse Alémanique", "type": "canton", "file": 'district_SA.svg', "parent": "swiss"},
 
     // District VS
     "ofsnbr2306" : { "name" : "Bezirk Leuk ", "file": 'district_VS.svg', 'parent' : 'VS'},
@@ -87,7 +87,7 @@ function makeMyMap(){
   };
 
   var mapWrapper = document.getElementById('swissmap');
-  var myMap = new SwissMap(mapWrapper, mapData, 'VS' ,options);
+  var myMap = new SwissMap(mapWrapper, mapData, 'swiss' ,options);
 
   myMap.init();
 
