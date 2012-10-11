@@ -1,5 +1,7 @@
 #swissmap object {
   width: 371.12px;
   height: 262.47px;
-  overflow: hidden;
+  display: block;
+  margin: 0 auto;
+  margin-top: 200px;
 }
