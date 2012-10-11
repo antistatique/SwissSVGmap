@@ -83,11 +83,12 @@ function makeMyMap(){
     //This is just because IE7 don't understand querySelector
     'overLabel' : document.getElementById('swissmapMouseOverLabel'),
     'backButton' : document.getElementById('swissmapBack'),
-    'currentTitle' : document.getElementById('swissmapTitle')
+    'currentTitle' : document.getElementById('swissmapTitle'),
+    'breadcrumbEl' : document.getElementById('swissmapBreadcrumb')
   };
 
   var mapWrapper = document.getElementById('swissmap');
-  var myMap = new SwissMap(mapWrapper, mapData, 'swiss' ,options);
+  var myMap = window.myMap = new SwissMap(mapWrapper, mapData, 'swiss' ,options);
 
   myMap.init();
 

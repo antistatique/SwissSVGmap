@@ -15,7 +15,8 @@
 
 #swissmap .swissmapBack,
 #swissmap .swissmapTitle,
-#swissmap .maplegend {
+#swissmap .maplegend,
+#swissmap .swissmapBreadcrumb {
   position: relative;
   z-index: 99;
 }
