@@ -77,7 +77,7 @@ function makeMyMap(){
   var options = {
     "overColor" : "#c1aa5b",
     "normalColor" : "#4D4D4D",
-    "selectedColor" : "#8DB63F",
+    "selectedColor" : "#e4d9b1",
     "selectedCallback" : null,
     "mapsRootPath" : 'maps',
     //This is just because IE7 don't understand querySelector
@@ -88,7 +88,7 @@ function makeMyMap(){
   };
 
   var mapWrapper = document.getElementById('swissmap');
-  var myMap = window.myMap = new SwissMap(mapWrapper, mapData, 'swiss' ,options);
+  var myMap = window.myMap = new SwissMap(mapWrapper, mapData, 'ofsnbr2226' ,options);
 
   myMap.init();
 

@@ -18,6 +18,7 @@ function SwissMap(wrapperElement, mapData, initialPlaceID, options){
   this.selectedRegions = {};
   this.originalSvgData = {};
   this.breadCrumbData = [];
+  this.initFlag = true;
   var self = this;
 
   // Default options
@@ -149,8 +150,10 @@ SwissMap.prototype.svgLoaded = function(e, svgInstance){
   this.bindEventToSVG();
 
   //@fixme
-  this.selectToggle(this.currentRegionID);
-
+  if(this.initFlag === true){
+    this.selectToggle(this.currentRegionID);
+    this.initFlag = false;
+  }
 };
 
 SwissMap.prototype.updateBreadCrumb = function(){
@@ -180,7 +183,6 @@ SwissMap.prototype.renderBreadCrumb = function(){
     idRegion = this.breadCrumbData[i].id;
     if(breadCrumbDataNbr == i){
       el = document.createElement('span');
-      console.log('span');
     }else{
       el = document.createElement('a');
       el.setAttribute('href', '#' + idRegion);
@@ -298,7 +300,7 @@ SwissMap.prototype.selectionAll = function(){
 };
 
 SwissMap.prototype.selectToggle = function(regionID){
-    var data = this.mapData[regionID];
+  var data = this.mapData[regionID];
   // SVG file if specified in the element
   // and the SVG is not the current one
   if(typeof data.file  !== "undefined" && data.file !== this.currentSvgFile){
