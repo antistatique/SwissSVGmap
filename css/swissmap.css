@@ -21,6 +21,10 @@
   z-index: 99;
 }
 
+#swissmap .swissmapBreadcrumb a:hover{
+  color:red;
+}
+
 #swissmap object {
   position: absolute;
   top: 0;

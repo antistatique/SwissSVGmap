@@ -76,8 +76,7 @@ SwissMap.prototype.init = function(){
 };
 
 SwissMap.prototype.loadRegionSVG = function(regionID){
-  console.log(regionID);
-  this.currentRegionID = regionID;
+  this.setCurrentRegionID(regionID);
   this.loadSVG(this.mapData[regionID].file);
 };
 
@@ -118,6 +117,13 @@ SwissMap.prototype.removeSVGObjects = function(){
   }
 };
 
+SwissMap.prototype.setCurrentRegionID = function(currentRegionID){
+  this.currentRegionID = currentRegionID;
+  //@todo make an event
+  this.updateBreadCrumb();
+  this.renderBreadCrumb();
+};
+
 SwissMap.prototype.unZoom = function(){
   this.loadRegionSVG(this.mapData[this.currentRegionID].parent);
 };
@@ -143,7 +149,7 @@ SwissMap.prototype.svgLoaded = function(e, svgInstance){
   this.bindEventToSVG();
 
   //@fixme
-  this.selectUnselect(this.currentRegionID);
+  this.selectToggle(this.currentRegionID);
 
 };
 
@@ -158,24 +164,35 @@ SwissMap.prototype.updateBreadCrumb = function(){
   elementData = this.mapData[this.currentRegionID];
   elementData.id = this.currentRegionID;
   breadCrumbData.push(elementData);
-  console.log(breadCrumbData);
   this.breadCrumbData = breadCrumbData;
 };
 
 
 SwissMap.prototype.renderBreadCrumb = function(){
-  var self = this;
-  this.options.breadcrumbEl.innerHTML = 'asdf';
+  var self, idRegion, link, breadCrumbDataNbr;
+
+  self = this;
+
+  this.options.breadcrumbEl.innerHTML = '';
+  breadCrumbDataNbr = this.breadCrumbData.length - 1;
+
   for(var i in this.breadCrumbData){
-    var idRegion = this.breadCrumbData[i].id;
-    var link = document.createElement('a');
-    link.innerHTML = this.breadCrumbData[i].name;
-    link.setAttribute('href', '#' + idRegion);
-    link.onclick = function(event){
-      self.loadRegionSVG(idRegion);
-      return false;
-    };
-    this.options.breadcrumbEl.appendChild(link);
+    idRegion = this.breadCrumbData[i].id;
+    if(breadCrumbDataNbr == i){
+      el = document.createElement('span');
+      console.log('span');
+    }else{
+      el = document.createElement('a');
+      el.setAttribute('href', '#' + idRegion);
+      el.setAttribute('data-regionid',  idRegion);
+      el.onclick = function(event){
+        self.loadRegionSVG(this.getAttribute('data-regionid'));
+        return false;
+      };
+    }
+    el.innerHTML = this.breadCrumbData[i].name;
+
+    this.options.breadcrumbEl.appendChild(el);
   }
 };
 /**
@@ -243,6 +260,8 @@ SwissMap.prototype.bindEventToSVG = function(){
 };
 
 SwissMap.prototype.addRegionToSelection = function(regionID){
+  this.setCurrentRegionID(regionID);
+
   if(this.options.multipleSelection === false){
     this.resetSelection();
   }
@@ -252,6 +271,8 @@ SwissMap.prototype.addRegionToSelection = function(regionID){
 };
 
 SwissMap.prototype.removeRegionFromSelection = function(regionID){
+  this.setCurrentRegionID(this.mapData[regionID].parent);
+
   mapElement = this.svg_map.getElementById(regionID);
   this.resetSVGAttribut(mapElement, 'fill');
   delete this.selectedRegions[regionID];
@@ -276,7 +297,7 @@ SwissMap.prototype.selectionAll = function(){
   //todo
 };
 
-SwissMap.prototype.selectUnselect = function(regionID){
+SwissMap.prototype.selectToggle = function(regionID){
     var data = this.mapData[regionID];
   // SVG file if specified in the element
   // and the SVG is not the current one
@@ -290,14 +311,12 @@ SwissMap.prototype.selectUnselect = function(regionID){
         this.addRegionToSelection(regionID);
     }
   }
-  this.updateBreadCrumb();
-  this.renderBreadCrumb();
 };
 
 //---Event listeners
 
 SwissMap.prototype.onMouseUp = function(e){
-  this.selectUnselect(e.target.id);
+  this.selectToggle(e.target.id);
 
   if(typeof this.mouseClickCallback === "function") {
     this.mouseClickCallback.call(this, e.target.id, e.target, data);
