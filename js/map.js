@@ -26,7 +26,7 @@ function SwissMap(wrapperElement, mapData, initialPlaceID, options){
     "overColor" : "#B3D259",
     "normalColor" : "#4D4D4D",
     "selectedColor" : "#8DB63F",
-    "mosueClickCallback" : null,
+    "mouseClickCallback" : null,
     "mouseOnCallback" : null,
     "mouseOutCallback" : null,
     "mapsRootPath" : 'maps',
