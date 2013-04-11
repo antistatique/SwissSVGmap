@@ -1,4 +1,11 @@
 /**
+ * Control the SVG map used in search
+ * Project: https://github.com/antistatique/SwissSVGmap
+ * License: GPLV3
+ * Autor: simon@antistatique.net
+ */
+
+/**
  * SwissMap is an object to control a SVG map
  *
  * @param html node wrapperElement HTML element than wrap the map.
@@ -59,11 +66,13 @@ function SwissMap(wrapperElement, mapData, initialPlaceID, options){
     }
   }
   // Old school event so it works on IE7
-  this.options.backButton.onclick = function(e){
-    self.resetSelection();
-    self.unZoom(e);
-    return false; //prevendtDefault
-  };
+  if(this.options.backButton !== null){
+    this.options.backButton.onclick = function(e){
+      self.resetSelection();
+      self.unZoom(e);
+      return false; //prevendtDefault
+    };
+  }
 
 }
 
@@ -120,7 +129,9 @@ SwissMap.prototype.removeSVGObjects = function(){
 
 SwissMap.prototype.setCurrentRegionID = function(currentRegionID){
   this.currentRegionID = currentRegionID;
-  //@todo make an event
+  //Fire an event
+  $(this.wrapperElement).trigger('swissmapSetRegionID',currentRegionID);
+  
   this.updateBreadCrumb();
   this.renderBreadCrumb();
 };
@@ -216,7 +227,6 @@ SwissMap.prototype.renderBreadCrumb = function(){
 
 SwissMap.prototype.setSVGAttribut = function(element, attributName, value){
   // Save the old value
-  // JS do not help us here...
   if (typeof this.originalSvgData[element.id] === "undefined") {
     this.originalSvgData[element.id] = {};
   }
@@ -231,9 +241,11 @@ SwissMap.prototype.setSVGAttribut = function(element, attributName, value){
 
 SwissMap.prototype.resetSVGAttribut = function(element, attributName){
   //get the original value
-  var value = this.originalSvgData[element.id][attributName];
-  //set it back
-  element.setAttribute(attributName, value);
+  if(element !== null){
+    var value = this.originalSvgData[element.id][attributName];
+    //set it back
+    element.setAttribute(attributName, value);
+  }
 };
 
 /**
@@ -268,12 +280,16 @@ SwissMap.prototype.addRegionToSelection = function(regionID){
     this.resetSelection();
   }
   mapElement = this.svg_map.getElementById(regionID);
-  this.setSVGAttribut(mapElement, 'fill', this.options.selectedColor);
+  if(mapElement != null){
+    this.setSVGAttribut(mapElement, 'fill', this.options.selectedColor);
+  }
   this.selectedRegions[regionID] = 'selected';
 };
 
 SwissMap.prototype.removeRegionFromSelection = function(regionID){
-  this.setCurrentRegionID(this.mapData[regionID].parent);
+  if(this.currentRegionID === regionID){
+    this.setCurrentRegionID(this.mapData[regionID].parent);
+  }
 
   mapElement = this.svg_map.getElementById(regionID);
   this.resetSVGAttribut(mapElement, 'fill');
@@ -306,6 +322,7 @@ SwissMap.prototype.selectToggle = function(regionID){
   if(typeof data.file  !== "undefined" && data.file !== this.currentSvgFile){
     this.loadRegionSVG(regionID);
   } else {
+    // NO KID!
     //select/unselect the region
     if(this.isRegionSelected(regionID)){
         this.removeRegionFromSelection(regionID);
@@ -319,13 +336,13 @@ SwissMap.prototype.selectToggle = function(regionID){
 
 SwissMap.prototype.onMouseUp = function(e){
   this.selectToggle(e.target.id);
-
   if(typeof this.mouseClickCallback === "function") {
     this.mouseClickCallback.call(this, e.target.id, e.target, data);
   }
 };
 SwissMap.prototype.onMouseOver = function(e){
   this.overRegionID = e.target.id;
+  this.setSVGAttribut(e.target, 'cursor', 'pointer');
   if(!this.isRegionSelected(e.target.id)){
     this.setSVGAttribut(e.target, 'fill', this.options.overColor);
   }
@@ -343,10 +360,3 @@ SwissMap.prototype.onMouseOut = function(e){
     this.mouseOutCallback.call(this, e.target.id, e.target, data);
   }
 };
-
-
-
-
-
-
-
